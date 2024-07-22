@@ -1,0 +1,13 @@
+{
+  "entities": [
+    "contact",
+    "msnfp_transaction",
+    "msnfp_paymentschedule",
+    "msnfp_donorcommitment"
+  ],
+  "actions": [],
+  "functions": [],
+  "output": {
+    "outputRoot": "./dataverse-types"
+  }
+}
