@@ -39,6 +39,7 @@ async function contactRoute(req: NextApiRequest, res: NextApiResponse) {
           tokenResponse.accessToken
         ).getContactById(contactId as string);
 
+        await disconnect();
         return res.status(200).json(contact);
 
       default:

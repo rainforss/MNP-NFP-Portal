@@ -293,6 +293,7 @@ export const enum ContactAttributes {
   Merged = "merged",
   MiddleName = "middlename",
   mnp_HashedPassword = "mnp_hashedpassword",
+  mnp_StripeCustomerId = "mnp_stripecustomerid",
   mnp_UserName = "mnp_username",
   MobilePhone = "mobilephone",
   ModifiedBy = "modifiedby",
@@ -755,6 +756,8 @@ export interface Contact extends IEntity {
   middlename?: string | null;
   // Hashed Password StringType
   mnp_hashedpassword?: string | null;
+  // Stripe Customer Id StringType
+  mnp_stripecustomerid?: string | null;
   // User Name StringType
   mnp_username?: string | null;
   // Mobile Phone StringType Type the mobile phone number for the contact.

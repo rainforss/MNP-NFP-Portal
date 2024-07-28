@@ -39,7 +39,10 @@ async function paymentScheduleRoute(req: NextApiRequest, res: NextApiResponse) {
       case "POST":
         const paymentSchedule = await dynamicsPaymentSchedule(
           tokenResponse.accessToken
-        ).createPaymentSchedule({ ...paymentScheduleData });
+        ).createPaymentSchedule({
+          ...paymentScheduleData,
+          mnp_dataentrytype: 864950002,
+        });
 
         return res.status(200).json({
           msnfp_paymentschedule: {
@@ -58,7 +61,7 @@ async function paymentScheduleRoute(req: NextApiRequest, res: NextApiResponse) {
     }
   } catch (err: any) {
     await disconnect();
-    console.log(err.message);
+
     if (err.name === "Unauthorized") {
       return res
         .status(401)

@@ -36,6 +36,7 @@ export const dynamicsTransaction = (accessToken: string) => {
         msnfp_receiveddate,
         mnp_stripepaymentintentid,
         _msnfp_receiptoncontactid_value,
+        mnp_donorcommitment,
       } = transactionData;
 
       const transaction = await createWithReturnData(
@@ -48,9 +49,19 @@ export const dynamicsTransaction = (accessToken: string) => {
           msnfp_receiveddate,
           mnp_stripepaymentintentid,
           "msnfp_receiptoncontactid@odata.bind": `/contacts(${_msnfp_receiptoncontactid_value})`,
+          "mnp_DonorCommitment@odata.bind": `/msnfp_donorcommitments(${mnp_donorcommitment})`,
+          mnp_dataentrytype: 864950002,
+          statuscode: 864950001,
+          mnp_gifttype: 864950000,
         },
         "$select=msnfp_transactionid"
       );
+
+      if (transaction.error) {
+        const error = new Error((transaction.error as any).message);
+        error.name = "D365 Error";
+        throw error;
+      }
 
       return transaction;
     },

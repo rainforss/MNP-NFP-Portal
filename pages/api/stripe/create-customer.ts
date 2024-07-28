@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Stripe } from "stripe";
+import { disconnect } from "../../../utils/redis";
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -24,9 +25,11 @@ export default async function paymentRoute(
         },
       });
 
+      await disconnect();
       return res.status(200).json({ customerId: stripeCustomer.id });
 
     default:
+      await disconnect();
       return res.status(405).json({
         error: {
           name: "Not Supported",

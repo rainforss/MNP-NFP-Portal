@@ -12,6 +12,7 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
         msnfp_pledgedbycontactid,
         msnfp_totalamount,
         msiati_description,
+        msnfp_commitmenttype,
       } = commitmentData;
 
       const commitment = await createWithReturnData(
@@ -24,6 +25,7 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
           "msnfp_PledgedByContactId@odata.bind": `/contacts(${msnfp_pledgedbycontactid})`,
           msnfp_totalamount,
           msiati_description,
+          msnfp_commitmenttype,
         },
         "$select=msnfp_donorcommitmentid"
       );

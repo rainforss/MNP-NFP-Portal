@@ -40,6 +40,7 @@ async function transactionRoute(req: NextApiRequest, res: NextApiResponse) {
           tokenResponse.accessToken
         ).createTransaction({ ...transactionData });
 
+        await disconnect();
         return res.status(200).json({
           msnfp_transaction: {
             msnfp_transactionid: transaction.msnfp_transactionid,
@@ -57,7 +58,7 @@ async function transactionRoute(req: NextApiRequest, res: NextApiResponse) {
     }
   } catch (err: any) {
     await disconnect();
-    console.log(err.message);
+
     if (err.name === "Unauthorized") {
       return res
         .status(401)

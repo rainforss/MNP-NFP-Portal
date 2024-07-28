@@ -12,12 +12,10 @@ export const dynamicsPaymentSchedule = (accessToken: string) => {
         msnfp_firstpaymentdate,
         msnfp_lastpaymentdate,
         msnfp_recurringamount,
-        msnfp_nextpaymentamount,
-        msnfp_nextpaymentdate,
         msnfp_numberofpayments,
-        mnp_stripesubscriptionid,
         msnfp_paymentschedule_donorcommitmentid,
         msnfp_totalamount,
+        mnp_dataentrytype,
       } = scheduleData;
 
       const schedule = await createWithReturnData(
@@ -30,11 +28,9 @@ export const dynamicsPaymentSchedule = (accessToken: string) => {
           msnfp_firstpaymentdate,
           msnfp_lastpaymentdate,
           msnfp_recurringamount,
-          msnfp_nextpaymentamount,
-          msnfp_nextpaymentdate,
           msnfp_numberofpayments,
-          mnp_stripesubscriptionid,
           msnfp_totalamount,
+          mnp_dataentrytype,
           "msnfp_PaymentSchedule_DonorCommitmentId@odata.bind": `/msnfp_donorcommitments(${msnfp_paymentschedule_donorcommitmentid})`,
         },
         "$select=msnfp_paymentscheduleid"

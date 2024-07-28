@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Stripe } from "stripe";
+import { disconnect } from "../../../utils/redis";
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -9,7 +10,7 @@ export default async function paymentRoute(
 ) {
   switch (req.method) {
     case "POST":
-      const { customerId, customerName, amount } = req.body;
+      const { customerId, customerName, amount, metadata } = req.body;
       const price = await stripe.prices.create({
         currency: "cad",
         unit_amount: amount * 100,
@@ -31,6 +32,7 @@ export default async function paymentRoute(
         payment_settings: { save_default_payment_method: "on_subscription" },
 
         expand: ["latest_invoice.payment_intent", "pending_setup_intent"],
+        metadata,
       });
 
       if (subscription.pending_setup_intent !== null) {
@@ -51,6 +53,7 @@ export default async function paymentRoute(
         });
       }
 
+      await disconnect();
       break;
     //   return res.status(200).json({
     //     clientSecret: (
@@ -61,6 +64,7 @@ export default async function paymentRoute(
     //   });
 
     default:
+      await disconnect();
       return res.status(405).json({
         error: {
           name: "Not Supported",

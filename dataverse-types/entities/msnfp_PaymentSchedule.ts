@@ -22,6 +22,7 @@ export const msnfp_paymentscheduleMetadata = {
     utcconversiontimezonecode: "Integer",
     versionnumber: "BigInt",
     // Optionsets
+    mnp_dataentrytype: "Optionset",
     msnfp_frequency: "Optionset",
     statecode: "Optionset",
     statuscode: "Optionset",
@@ -61,6 +62,7 @@ export const enum msnfp_PaymentScheduleAttributes {
   CreatedOnBehalfByYomiName = "createdonbehalfbyyominame",
   ExchangeRate = "exchangerate",
   ImportSequenceNumber = "importsequencenumber",
+  mnp_DataEntryType = "mnp_dataentrytype",
   mnp_StripeSubscriptionId = "mnp_stripesubscriptionid",
   ModifiedBy = "modifiedby",
   ModifiedByName = "modifiedbyname",
@@ -130,6 +132,8 @@ export interface msnfp_PaymentSchedule extends IEntity {
   exchangerate?: number | null;
   // Import Sequence Number IntegerType Sequence number of the import that created this record.
   importsequencenumber?: number | null;
+  // Data Entry Type msnfp_dataentrytype
+  mnp_dataentrytype?: import("../enums/msnfp_dataentrytype").msnfp_dataentrytype | null;
   // Stripe Subscription Id StringType
   mnp_stripesubscriptionid?: string | null;
   // Modified By LookupType Unique identifier of the user who modified the record.

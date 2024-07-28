@@ -129,7 +129,22 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
           }
 
           let contactId;
-
+          const stripeCustomerRes = await axios.post(
+            "/api/stripe/create-customer",
+            {
+              customer: {
+                firstname,
+                lastname,
+                emailaddress1,
+                address1_city,
+                address1_country,
+                address1_line1,
+                address1_line2,
+                address1_postalcode,
+                address1_stateorprovince,
+              },
+            }
+          );
           if (!!user) {
             contactId = user._id;
           } else {
@@ -146,6 +161,7 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 address1_stateorprovince,
                 description,
                 msnfp_primaryconstituenttype: 100000000,
+                mnp_stripecustomerid: stripeCustomerRes.data.customerId,
               },
             });
             contactId = contactRes.data.contact.contactid;
@@ -158,24 +174,14 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 amount: values.isProcessingFeeCovered
                   ? values.amount + values.amount * 0.04
                   : values.amount,
+                customerId: stripeCustomerRes.data.customerId,
               }
             );
             const clientSecret = result.data.clientSecret;
 
-            await Promise.all([
-              axios.post("/api/transactions", {
-                transactionData: {
-                  msnfp_name: `$${values.amount} One-Time: Stripe Online (${firstname} ${lastname})`,
-                  msnfp_amount: values.isProcessingFeeCovered
-                    ? values.amount + values.amount * 0.04
-                    : values.amount,
-                  msnfp_bookdate: new Date(),
-                  msnfp_receiveddate: new Date(),
-                  mnp_stripepaymentintentid: result.data.id,
-                  _msnfp_receiptoncontactid_value: contactId,
-                },
-              }),
-              axios.post("/api/donor-commitment", {
+            const donorCommitmentRes = await axios.post(
+              "/api/donor-commitment",
+              {
                 donorCommitmentData: {
                   msnfp_name: `$${values.amount} One-Time Donation (${firstname} ${lastname})`,
                   msnfp_commitmentdate: new Date(),
@@ -185,9 +191,25 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                   msnfp_totalamount: values.isProcessingFeeCovered
                     ? values.amount + values.amount * 0.04
                     : values.amount,
+                  msnfp_commitmenttype: 100000000,
                 },
-              }),
-            ]);
+              }
+            );
+            await axios.post("/api/transactions", {
+              transactionData: {
+                msnfp_name: `$${values.amount} One-Time: Stripe Online (${firstname} ${lastname})`,
+                msnfp_amount: values.isProcessingFeeCovered
+                  ? values.amount + values.amount * 0.04
+                  : values.amount,
+                msnfp_bookdate: new Date(),
+                msnfp_receiveddate: new Date(),
+                mnp_stripepaymentintentid: result.data.id,
+                _msnfp_receiptoncontactid_value: contactId,
+                mnp_donorcommitment:
+                  donorCommitmentRes.data.msnfp_donorcommitment
+                    .msnfp_donorcommitmentid,
+              },
+            });
 
             const { error } = await stripe.confirmPayment({
               elements,
@@ -221,62 +243,61 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
               setSubmitting(false);
             }
           } else {
-            const customerRes = await axios.post(
-              "/api/stripe/create-customer",
+            // const customerRes = await axios.post(
+            //   "/api/stripe/create-customer",
+            //   {
+            //     customer: { ...values },
+            //   }
+            // );
+
+            const donorCommitment = await axios.post("/api/donor-commitment", {
+              donorCommitmentData: {
+                msnfp_name: `$${values.amount} Monthly Donation (${firstname} ${lastname})`,
+                msnfp_commitmentdate: new Date(),
+                msnfp_isbookable: true,
+                msnfp_pledgedbycontactid: contactId,
+                msnfp_totalamount: values.amount,
+                msiati_description: values.description,
+                msnfp_commitmenttype: 100000001,
+              },
+            });
+
+            const paymentScheduleRes = await axios.post(
+              "/api/payment-schedule",
               {
-                customer: { ...values },
+                paymentScheduleData: {
+                  msnfp_name: `$${values.amount} Monthly: Stripe Online (${firstname} ${lastname})`,
+                  msnfp_frequency: 100000000,
+                  msnfp_frequencyinterval: 1,
+                  msnfp_firstpaymentdate: new Date(),
+                  msnfp_recurringamount: values.isProcessingFeeCovered
+                    ? values.amount + values.amount * 0.04
+                    : values.amount,
+                  msnfp_nextpaymentamount: values.isProcessingFeeCovered
+                    ? values.amount + values.amount * 0.04
+                    : values.amount,
+                  msnfp_paymentschedule_donorcommitmentid:
+                    donorCommitment.data.msnfp_donorcommitment
+                      .msnfp_donorcommitmentid,
+                },
               }
             );
 
-            const results = await Promise.all([
-              axios.post("/api/stripe/create-subscription", {
-                customerId: customerRes.data.customerId,
+            const subscriptionRes = await axios.post(
+              "/api/stripe/create-subscription",
+              {
+                customerId: stripeCustomerRes.data.customerId,
                 customerName: `${values.firstname} ${values.lastname}`,
                 amount: values.isProcessingFeeCovered
                   ? values.amount + values.amount * 0.04
                   : values.amount,
-              }),
-              axios.post("/api/donor-commitment", {
-                donorCommitmentData: {
-                  msnfp_name: `$${values.amount} Monthly Donation (${firstname} ${lastname})`,
-                  msnfp_commitmentdate: new Date(),
-                  msnfp_isbookable: true,
-                  msnfp_pledgedbycontactid: contactId,
-                  msnfp_totalamount: values.amount,
-                  msiati_description: values.description,
+                metadata: {
+                  paymentscheduleid:
+                    paymentScheduleRes.data.msnfp_paymentschedule
+                      .msnfp_paymentscheduleid,
                 },
-              }),
-            ]);
-
-            const subscriptionRes = results[0];
-            const donorCommitment = results[1];
-
-            await axios.post("/api/payment-schedule", {
-              paymentScheduleData: {
-                msnfp_name: `$${values.amount} Monthly: Stripe Online (${firstname} ${lastname})`,
-                msnfp_frequency: 100000000,
-                msnfp_frequencyinterval: 1,
-                msnfp_firstpaymentdate: new Date(),
-                msnfp_lastpaymentdate: new Date(),
-                msnfp_recurringamount: values.isProcessingFeeCovered
-                  ? values.amount + values.amount * 0.04
-                  : values.amount,
-                msnfp_nextpaymentamount: values.isProcessingFeeCovered
-                  ? values.amount + values.amount * 0.04
-                  : values.amount,
-                msnfp_totalamount: values.isProcessingFeeCovered
-                  ? values.amount + values.amount * 0.04
-                  : values.amount,
-                msnfp_nextpaymentdate: new Date(
-                  subscriptionRes.data.nextPaymentDate * 1000
-                ),
-                msnfp_numberofpayments: 1,
-                mnp_stripesubscriptionid: subscriptionRes.data.id,
-                msnfp_paymentschedule_donorcommitmentid:
-                  donorCommitment.data.msnfp_donorcommitment
-                    .msnfp_donorcommitmentid,
-              },
-            });
+              }
+            );
 
             const clientSecret = subscriptionRes.data.clientSecret;
 

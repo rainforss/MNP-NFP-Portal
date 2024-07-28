@@ -16,6 +16,8 @@ export const msnfp_transactionMetadata = {
     utcconversiontimezonecode: "Integer",
     versionnumber: "BigInt",
     // Optionsets
+    mnp_dataentrytype: "Optionset",
+    mnp_gifttype: "Optionset",
     msnfp_adjustmentreason: "Optionset",
     msnfp_adjustmenttype: "Optionset",
     msnfp_anonymity: "Optionset",
@@ -53,6 +55,7 @@ export const msnfp_transactionMetadata = {
     msiati_disbursementchannelid: ["mscrm.msiati_nonembeddedcodelist"],
     modifiedonbehalfby: ["mscrm.systemuser"],
     modifiedby: ["mscrm.systemuser"],
+    mnp_DonorCommitment: ["mscrm.msnfp_donorcommitment"],
     createdonbehalfby: ["mscrm.systemuser"],
     createdby: ["mscrm.systemuser"],
   },
@@ -69,7 +72,14 @@ export const enum msnfp_TransactionAttributes {
   CreatedOnBehalfByYomiName = "createdonbehalfbyyominame",
   ExchangeRate = "exchangerate",
   ImportSequenceNumber = "importsequencenumber",
+  mnp_DataEntryType = "mnp_dataentrytype",
+  mnp_DonorCommitment = "mnp_donorcommitment",
+  mnp_DonorCommitmentName = "mnp_donorcommitmentname",
+  mnp_GiftType = "mnp_gifttype",
+  mnp_StripeInvoiceId = "mnp_stripeinvoiceid",
   mnp_StripePaymentIntentId = "mnp_stripepaymentintentid",
+  mnp_StripePaymentLink = "mnp_stripepaymentlink",
+  mnp_TransactionNumber = "mnp_transactionnumber",
   ModifiedBy = "modifiedby",
   ModifiedByName = "modifiedbyname",
   ModifiedByYomiName = "modifiedbyyominame",
@@ -170,8 +180,22 @@ export interface msnfp_Transaction extends IEntity {
   exchangerate?: number | null;
   // Import Sequence Number IntegerType Sequence number of the import that created this record.
   importsequencenumber?: number | null;
+  // Data Entry Type [Required] msnfp_dataentrytype
+  mnp_dataentrytype?: import("../enums/msnfp_dataentrytype").msnfp_dataentrytype;
+  // Donor Commitment LookupType
+  mnp_donorcommitment?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  mnp_donorcommitmentname?: string | null;
+  // Gift Type [Required] mnp_gifttype
+  mnp_gifttype?: import("../enums/mnp_gifttype").mnp_gifttype;
+  // Stripe Invoice Id StringType
+  mnp_stripeinvoiceid?: string | null;
   // Stripe Payment Intent Id StringType
   mnp_stripepaymentintentid?: string | null;
+  // Stripe Payment Link StringType
+  mnp_stripepaymentlink?: string | null;
+  // Transaction Number StringType
+  mnp_transactionnumber?: string | null;
   // Modified By LookupType Unique identifier of the user who modified the record.
   modifiedby?: import("dataverse-ify").EntityReference | null;
   //  StringType
@@ -254,8 +278,8 @@ export interface msnfp_Transaction extends IEntity {
   msnfp_bookdate?: Date;
   // Data Entry Reference StringType Tracks data origin of payment transactions. References may be channel-specific.
   msnfp_dataentryreference?: string | null;
-  // Data Entry Source [Required] msnfp_transaction_new_msnfp_transaction_msnfp_dataentrysource
-  msnfp_dataentrysource?: import("../enums/msnfp_transaction_new_msnfp_transaction_msnfp_dataentrysource").msnfp_transaction_new_msnfp_transaction_msnfp_dataentrysource;
+  // Data Entry Source msnfp_transaction_new_msnfp_transaction_msnfp_dataentrysource
+  msnfp_dataentrysource?: import("../enums/msnfp_transaction_new_msnfp_transaction_msnfp_dataentrysource").msnfp_transaction_new_msnfp_transaction_msnfp_dataentrysource | null;
   // Effective Source Code StringType
   msnfp_effectivesourcecode?: string | null;
   // Exchange Rate Date DateTimeType The date and time at which the currency exchange rate was determined DateAndTime:UserLocal
@@ -278,8 +302,8 @@ export interface msnfp_Transaction extends IEntity {
   msnfp_receiptoncontactidname?: string | null;
   //  StringType
   msnfp_receiptoncontactidyominame?: string | null;
-  // Received Date [Required] DateTimeType DateOnly:UserLocal
-  msnfp_receiveddate?: Date;
+  // Received Date DateTimeType DateOnly:UserLocal
+  msnfp_receiveddate?: Date | null;
   // Payment Method LookupType Payment Method
   msnfp_transaction_paymentmethodid?: import("dataverse-ify").EntityReference | null;
   //  StringType
