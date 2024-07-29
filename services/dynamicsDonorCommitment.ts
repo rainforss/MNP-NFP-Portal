@@ -13,6 +13,7 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
         msnfp_totalamount,
         msiati_description,
         msnfp_commitmenttype,
+        msnfp_commitment_defaultdesignationid,
       } = commitmentData;
 
       const commitment = await createWithReturnData(
@@ -23,12 +24,19 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
           msnfp_commitmentdate,
           msnfp_isbookable,
           "msnfp_PledgedByContactId@odata.bind": `/contacts(${msnfp_pledgedbycontactid})`,
+          "msnfp_Commitment_DefaultDesignationId@odata.bind": `/msnfp_designations(${msnfp_commitment_defaultdesignationid})`,
           msnfp_totalamount,
           msiati_description,
           msnfp_commitmenttype,
         },
         "$select=msnfp_donorcommitmentid"
       );
+
+      if (commitment.error) {
+        const error = new Error((commitment.error as any).message);
+        error.name = "D365 Error";
+        throw error;
+      }
 
       return commitment;
     },

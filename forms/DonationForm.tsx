@@ -1,18 +1,20 @@
 import { Box, Button, useToast } from "@chakra-ui/react";
+import {
+  PaymentElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import axios from "axios";
 import { Form, Formik, FormikProps } from "formik";
 import * as React from "react";
 import ButtonGroupInput from "../components/ButtonGroup";
 import CheckboxInput from "../components/CheckboxInput";
+import SelectInput from "../components/SelectInput";
 import TextInput from "../components/TextInput";
 import TextInputGroup from "../components/TextInputGroup";
-import {
-  useStripe,
-  useElements,
-  PaymentElement,
-} from "@stripe/react-stripe-js";
-import axios from "axios";
-import { CurrentUser } from "../types/dynamicsEntities";
 import { useContacts } from "../hooks/useContacts";
+import { useDesignations } from "../hooks/useDesignations";
+import { CurrentUser } from "../types/dynamicsEntities";
 import { donationSchema } from "../utils/validation";
 
 interface IDonationFormProps {
@@ -34,6 +36,7 @@ type DonationValues = {
   address1_country: string;
   address1_stateorprovince: string;
   address1_postalcode: string;
+  msnfp_designationid: string;
 };
 
 const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
@@ -46,6 +49,11 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
     layout: "tabs",
   };
   const { contact, isError, isLoading } = useContacts(user?._id);
+  const {
+    designations,
+    isError: isDesignationError,
+    isLoading: isDesignationLoading,
+  } = useDesignations();
 
   return (
     <Box
@@ -73,6 +81,7 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 address1_line2: "",
                 address1_postalcode: "",
                 address1_stateorprovince: "",
+                msnfp_designationid: "",
               } as DonationValues)
             : ({
                 isRecurring: false,
@@ -87,6 +96,7 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 address1_postalcode: contact.address1_postalcode || "",
                 address1_stateorprovince:
                   contact.address1_stateorprovince || "",
+                msnfp_designationid: "",
               } as DonationValues)
         }
         validationSchema={donationSchema}
@@ -98,6 +108,14 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
           }
 
           setSubmitting(true);
+          toast({
+            title: "Submitting donation",
+            description:
+              "Submitting and validating your information. Please do not close the page.",
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+          });
           const {
             firstname,
             lastname,
@@ -192,6 +210,8 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                     ? values.amount + values.amount * 0.04
                     : values.amount,
                   msnfp_commitmenttype: 100000000,
+                  msnfp_commitment_defaultdesignationid:
+                    values.msnfp_designationid,
                 },
               }
             );
@@ -259,6 +279,8 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 msnfp_totalamount: values.amount,
                 msiati_description: values.description,
                 msnfp_commitmenttype: 100000001,
+                msnfp_commitment_defaultdesignationid:
+                  values.msnfp_designationid,
               },
             });
 
@@ -382,6 +404,18 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 } processing fee so 100% of my donation goes to this charity.`}
                 p="1rem"
               />
+
+              <SelectInput
+                label="Designation"
+                name="msnfp_designationid"
+                id="msnfp_designationid"
+                options={designations}
+                w="100%"
+                py="0.375rem"
+                px="1rem"
+                disabled={isSubmitting}
+              />
+
               <TextInput
                 name="description"
                 id="description"

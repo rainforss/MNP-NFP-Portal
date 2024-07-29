@@ -3,7 +3,8 @@
     "contact",
     "msnfp_transaction",
     "msnfp_paymentschedule",
-    "msnfp_donorcommitment"
+    "msnfp_donorcommitment",
+    "msnfp_designation"
   ],
   "actions": [],
   "functions": [],

@@ -69,4 +69,8 @@ export const donationSchema = Yup.object().shape({
     .trim()
     .min(1, "Please enter your postal code")
     .required("Postal code is required."),
+  msnfp_designationid: Yup.string()
+    .trim()
+    .min(1, "Please select a designation")
+    .required("Please select a designation"),
 });

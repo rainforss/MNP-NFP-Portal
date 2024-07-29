@@ -36,6 +36,12 @@ export const dynamicsPaymentSchedule = (accessToken: string) => {
         "$select=msnfp_paymentscheduleid"
       );
 
+      if (schedule.error) {
+        const error = new Error((schedule.error as any).message);
+        error.name = "D365 Error";
+        throw error;
+      }
+
       return schedule;
     },
   };

@@ -4,17 +4,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Select,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import * as React from "react";
-import {
-  AcademicPeriod,
-  Program,
-  ProgramLevel,
-} from "../types/dynamicsEntities";
+import { msnfp_Designation } from "../dataverse-types/entities/msnfp_Designation";
 
 interface ISelectInputProps extends ChakraProps {
-  options: Array<AcademicPeriod | Program | ProgramLevel>;
+  options?: msnfp_Designation[];
   id: string;
   name: string;
   label: string;
@@ -38,48 +35,34 @@ const SelectInput: React.FunctionComponent<ISelectInputProps> = ({
       isRequired={required}
       {...chakraProps}
     >
-      <FormLabel htmlFor={id}>{label}</FormLabel>
-      <Select
-        id={id}
-        name={name}
-        disabled={disabled}
-        onChange={field.onChange}
-        value={field.value}
-        placeholder=""
-        borderColor="#767676"
-      >
-        <option value="">-- Please Select an Option --</option>
-        {options.map((o) => {
-          if (o.hasOwnProperty("mshied_academicperiodid")) {
+      <FormLabel fontWeight="normal" fontSize="0.93rem" htmlFor={id}>
+        {label}
+      </FormLabel>
+      {!options && <Skeleton isLoaded={!!options} w="100%" h="39px"></Skeleton>}
+      {options && (
+        <Select
+          id={id}
+          name={name}
+          disabled={disabled}
+          onChange={field.onChange}
+          value={field.value}
+          placeholder=""
+          background="white"
+          boxShadow="0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02)"
+        >
+          <option value="">-- Please Select an Option --</option>
+          {options.map((o) => {
             return (
               <option
-                key={(o as AcademicPeriod).mshied_academicperiodid}
-                value={(o as AcademicPeriod).mshied_academicperiodid}
+                key={o.msnfp_designationid}
+                value={o.msnfp_designationid as string}
               >
-                {(o as AcademicPeriod).mshied_name}
+                {o.msnfp_name}
               </option>
             );
-          }
-          if (o.hasOwnProperty("mshied_programlevelid")) {
-            return (
-              <option
-                key={(o as ProgramLevel).mshied_programlevelid}
-                value={(o as ProgramLevel).mshied_programlevelid}
-              >
-                {(o as ProgramLevel).mshied_name}
-              </option>
-            );
-          }
-          return (
-            <option
-              key={(o as Program).mshied_programid}
-              value={(o as Program).mshied_programid}
-            >
-              {(o as Program).mshied_name}
-            </option>
-          );
-        })}
-      </Select>
+          })}
+        </Select>
+      )}
       {!!meta.error && <FormErrorMessage>{meta.error}</FormErrorMessage>}
     </FormControl>
   );
