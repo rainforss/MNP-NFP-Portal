@@ -32,7 +32,7 @@ const Dropdown: React.FunctionComponent<IDropdownProps> = (props) => {
         h="40px"
         color="#b6922e"
         onClick={async () => {
-          await axios.get("/api/user/logout");
+          await axios.post("/api/user/logout");
           router.push("/");
         }}
       >
