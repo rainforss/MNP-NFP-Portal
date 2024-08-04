@@ -52,7 +52,7 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
           <NextLink href="/" passHref>
             <Link>
               <Image
-                src="/mnp-llp-vector-logo.png"
+                src="/JFS-logo.png"
                 width="100px"
                 height="60px"
                 alt="Betach Institute Logo"
@@ -63,10 +63,10 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
           <Text
             as="span"
             fontWeight="bold"
-            fontSize="1.0rem"
+            fontSize="0.98rem"
             textTransform="uppercase"
           >
-            Fundrasing & Engagement
+            Fundraising & Engagement
           </Text>
           <Box w="100%" h="1px" bgColor="#0a2351"></Box>
         </Flex>

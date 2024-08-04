@@ -53,7 +53,6 @@ export default async function paymentRoute(
         });
       }
 
-      await disconnect();
       break;
     //   return res.status(200).json({
     //     clientSecret: (
@@ -64,7 +63,6 @@ export default async function paymentRoute(
     //   });
 
     default:
-      await disconnect();
       return res.status(405).json({
         error: {
           name: "Not Supported",

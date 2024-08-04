@@ -23,14 +23,12 @@ export default async function paymentRoute(
         customer: customerId,
       });
 
-      await disconnect();
       return res.status(200).json({
         clientSecret: paymentIntent.client_secret,
         id: paymentIntent.id,
       });
 
     default:
-      await disconnect();
       return res.status(405).json({
         error: {
           name: "Not Supported",

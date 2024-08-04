@@ -150,12 +150,12 @@ export interface msnfp_PaymentSchedule extends IEntity {
   modifiedonbehalfbyname?: string | null;
   //  StringType
   modifiedonbehalfbyyominame?: string | null;
-  // First Payment Date DateTimeType Date of first payment DateOnly:UserLocal
-  msnfp_firstpaymentdate?: Date | null;
-  // Frequency msnfp_paymentschedule_new_msnfp_paymentschedule_msnfp_frequency iCal compliant recurrence field
-  msnfp_frequency?: import("../enums/msnfp_paymentschedule_new_msnfp_paymentschedule_msnfp_frequency").msnfp_paymentschedule_new_msnfp_paymentschedule_msnfp_frequency | null;
-  // Frequency Interval IntegerType iCal compliant recurrence field
-  msnfp_frequencyinterval?: number | null;
+  // First Payment Date [Required] DateTimeType Date of first payment DateOnly:UserLocal
+  msnfp_firstpaymentdate?: Date;
+  // Frequency [Required] msnfp_paymentschedule_new_msnfp_paymentschedule_msnfp_frequency iCal compliant recurrence field
+  msnfp_frequency?: import("../enums/msnfp_paymentschedule_new_msnfp_paymentschedule_msnfp_frequency").msnfp_paymentschedule_new_msnfp_paymentschedule_msnfp_frequency;
+  // Frequency Interval [Required] IntegerType iCal compliant recurrence field
+  msnfp_frequencyinterval?: number;
   // Last Payment Date DateTimeType The date by which the payment schedule is expected to be fully paid. DateOnly:UserLocal
   msnfp_lastpaymentdate?: Date | null;
   // Name [Required] StringType
@@ -188,8 +188,8 @@ export interface msnfp_PaymentSchedule extends IEntity {
   msnfp_receiptonaccountidname?: string | null;
   //  StringType
   msnfp_receiptonaccountidyominame?: string | null;
-  // Recurring Amount MoneyType This will include both the Base and Donor Currencies
-  msnfp_recurringamount?: number | null;
+  // Recurring Amount [Required] MoneyType This will include both the Base and Donor Currencies
+  msnfp_recurringamount?: number;
   // Recurring Amount (Base) MoneyType Value of the Recurring Amount in base currency.
   msnfp_recurringamount_base?: number | null;
   // Total Amount MoneyType This will include both the Base and Donor Currencies

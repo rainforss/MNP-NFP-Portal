@@ -33,10 +33,12 @@ export const contactMetadata = {
     entityimage_timestamp: "BigInt",
     exchangerate: "Decimal",
     importsequencenumber: "Integer",
+    msdyn_primarytimezone: "Integer",
     msnfp_age: "Integer",
     msnfp_birthyear: "Integer",
     numberofchildren: "Integer",
     onholdtime: "Integer",
+    teamsfollowed: "Integer",
     timezoneruleversionnumber: "Integer",
     utcconversiontimezonecode: "Integer",
     versionnumber: "BigInt",
@@ -58,6 +60,9 @@ export const contactMetadata = {
     gendercode: "Optionset",
     haschildrencode: "Optionset",
     leadsourcecode: "Optionset",
+    msdyn_decisioninfluencetag: "Optionset",
+    msdyn_orgchangestatus: "Optionset",
+    msgdpr_gdprconsent: "Optionset",
     msnfp_birthday: "Optionset",
     msnfp_birthmonth: "Optionset",
     msnfp_ethnicity: "Optionset",
@@ -91,17 +96,37 @@ export const contactMetadata = {
     stageid_processstage: ["mscrm.processstage"],
     sla_contact_sla: ["mscrm.sla"],
     preferredsystemuserid: ["mscrm.systemuser"],
+    preferredserviceid: ["mscrm.service"],
+    preferredequipmentid: ["mscrm.equipment"],
     owninguser: ["mscrm.systemuser"],
     owningteam: ["mscrm.team"],
     owningbusinessunit: ["mscrm.businessunit"],
     ownerid: ["mscrm.principal"],
+    originatingleadid: ["mscrm.lead"],
     msnfp_ReportsToId: ["mscrm.contact"],
+    msgdpr_consentchangesourceformId: ["mscrm.msdyncrm_marketingform"],
+    msgdpr_GDPRParentId: ["mscrm.contact"],
+    msevtmgt_originatingeventid: ["mscrm.msevtmgt_event"],
+    msevtmgt_ContactId: ["mscrm.msevtmgt_checkin"],
+    msdynmkt_marketingformid: ["mscrm.msdynmkt_marketingform"],
+    msdynmkt_emailid: ["mscrm.msdynmkt_email"],
+    msdynmkt_customerjourneyid: ["mscrm.msdynmkt_journey"],
+    msdyncrm_marketingpageid: ["mscrm.msdyncrm_marketingpage"],
+    msdyncrm_marketingformid: ["mscrm.msdyncrm_marketingform"],
+    msdyncrm_emailid: ["mscrm.msdyncrm_marketingemail"],
+    msdyncrm_customerjourneyid: ["mscrm.msdyncrm_customerjourney"],
+    msdyncrm_SegmentMemberId: ["mscrm.msdyncrm_segment"],
+    msdyncrm_ContactId: ["mscrm.msdyncrm_quicksendemail"],
+    msdyn_segmentid: ["mscrm.msdyn_segment"],
+    msdyn_contactkpiid: ["mscrm.msdyn_contactkpiitem"],
     msa_managingpartnerid: ["mscrm.account"],
     modifiedonbehalfby: ["mscrm.systemuser"],
     modifiedby: ["mscrm.systemuser"],
     masterid: ["mscrm.contact"],
+    defaultpricelevelid: ["mscrm.pricelevel"],
     createdonbehalfby: ["mscrm.systemuser"],
     createdby: ["mscrm.systemuser"],
+    adx_preferredlanguageid: ["mscrm.adx_portallanguage"],
     parentcustomerid: ["account","contact"],
     slainvokedid: ["sla"],
   },
@@ -204,6 +229,10 @@ export const enum ContactAttributes {
   Adx_ModifiedByIPAddress = "adx_modifiedbyipaddress",
   Adx_ModifiedByUsername = "adx_modifiedbyusername",
   Adx_OrganizationName = "adx_organizationname",
+  adx_portalinvitationcode = "adx_portalinvitationcode",
+  adx_portalinvitationurl = "adx_portalinvitationurl",
+  adx_preferredlanguageid = "adx_preferredlanguageid",
+  adx_preferredlanguageidName = "adx_preferredlanguageidname",
   adx_preferredlcid = "adx_preferredlcid",
   adx_profilealert = "adx_profilealert",
   adx_profilealertdate = "adx_profilealertdate",
@@ -226,6 +255,8 @@ export const enum ContactAttributes {
   AssistantPhone = "assistantphone",
   BirthDate = "birthdate",
   Business2 = "business2",
+  BusinessCard = "businesscard",
+  BusinessCardAttributes = "businesscardattributes",
   Callback = "callback",
   ChildrensNames = "childrensnames",
   Company = "company",
@@ -245,6 +276,8 @@ export const enum ContactAttributes {
   CreditOnHold = "creditonhold",
   CustomerSizeCode = "customersizecode",
   CustomerTypeCode = "customertypecode",
+  DefaultPriceLevelId = "defaultpricelevelid",
+  DefaultPriceLevelIdName = "defaultpricelevelidname",
   Department = "department",
   Description = "description",
   DoNotBulkEMail = "donotbulkemail",
@@ -309,10 +342,53 @@ export const enum ContactAttributes {
   msa_managingpartnerid = "msa_managingpartnerid",
   msa_managingpartneridName = "msa_managingpartneridname",
   msa_managingpartneridYomiName = "msa_managingpartneridyominame",
+  msdyn_contactkpiid = "msdyn_contactkpiid",
+  msdyn_contactkpiidName = "msdyn_contactkpiidname",
+  msdyn_decisioninfluencetag = "msdyn_decisioninfluencetag",
   msdyn_disablewebtracking = "msdyn_disablewebtracking",
+  msdyn_gdproptout = "msdyn_gdproptout",
+  msdyn_isassistantinorgchart = "msdyn_isassistantinorgchart",
   msdyn_isminor = "msdyn_isminor",
   msdyn_isminorwithparentalconsent = "msdyn_isminorwithparentalconsent",
+  msdyn_orgchangestatus = "msdyn_orgchangestatus",
   msdyn_portaltermsagreementdate = "msdyn_portaltermsagreementdate",
+  msdyn_PrimaryTimeZone = "msdyn_primarytimezone",
+  msdyn_segmentid = "msdyn_segmentid",
+  msdyn_segmentidName = "msdyn_segmentidname",
+  msdyncrm_ContactId = "msdyncrm_contactid",
+  msdyncrm_ContactIdName = "msdyncrm_contactidname",
+  msdyncrm_customerjourneyid = "msdyncrm_customerjourneyid",
+  msdyncrm_customerjourneyidName = "msdyncrm_customerjourneyidname",
+  msdyncrm_emailid = "msdyncrm_emailid",
+  msdyncrm_emailidName = "msdyncrm_emailidname",
+  msdyncrm_insights_placeholder = "msdyncrm_insights_placeholder",
+  msdyncrm_marketingformid = "msdyncrm_marketingformid",
+  msdyncrm_marketingformidName = "msdyncrm_marketingformidname",
+  msdyncrm_marketingformsubmissiondateprecise = "msdyncrm_marketingformsubmissiondateprecise",
+  msdyncrm_marketingpageid = "msdyncrm_marketingpageid",
+  msdyncrm_marketingpageidName = "msdyncrm_marketingpageidname",
+  msdyncrm_rememberMe = "msdyncrm_rememberme",
+  msdyncrm_SegmentMemberId = "msdyncrm_segmentmemberid",
+  msdyncrm_SegmentMemberIdName = "msdyncrm_segmentmemberidname",
+  msdynmkt_customerjourneyid = "msdynmkt_customerjourneyid",
+  msdynmkt_customerjourneyidName = "msdynmkt_customerjourneyidname",
+  msdynmkt_emailid = "msdynmkt_emailid",
+  msdynmkt_emailidName = "msdynmkt_emailidname",
+  msdynmkt_marketingformid = "msdynmkt_marketingformid",
+  msdynmkt_marketingformidName = "msdynmkt_marketingformidname",
+  msevtmgt_aadobjectid = "msevtmgt_aadobjectid",
+  msevtmgt_ContactId = "msevtmgt_contactid",
+  msevtmgt_ContactIdName = "msevtmgt_contactidname",
+  msevtmgt_originatingeventid = "msevtmgt_originatingeventid",
+  msevtmgt_originatingeventidName = "msevtmgt_originatingeventidname",
+  msgdpr_consentchangesourceformId = "msgdpr_consentchangesourceformid",
+  msgdpr_consentchangesourceformIdName = "msgdpr_consentchangesourceformidname",
+  msgdpr_donottrack = "msgdpr_donottrack",
+  msgdpr_gdprconsent = "msgdpr_gdprconsent",
+  msgdpr_gdprischild = "msgdpr_gdprischild",
+  msgdpr_GDPRParentId = "msgdpr_gdprparentid",
+  msgdpr_GDPRParentIdName = "msgdpr_gdprparentidname",
+  msgdpr_GDPRParentIdYomiName = "msgdpr_gdprparentidyominame",
   msnfp_Age = "msnfp_age",
   msnfp_anonymous = "msnfp_anonymous",
   msnfp_BirthDay = "msnfp_birthday",
@@ -330,6 +406,9 @@ export const enum ContactAttributes {
   NickName = "nickname",
   NumberOfChildren = "numberofchildren",
   OnHoldTime = "onholdtime",
+  OriginatingLeadId = "originatingleadid",
+  OriginatingLeadIdName = "originatingleadidname",
+  OriginatingLeadIdYomiName = "originatingleadidyominame",
   OverriddenCreatedOn = "overriddencreatedon",
   OwnerId = "ownerid",
   OwnerIdName = "owneridname",
@@ -352,6 +431,10 @@ export const enum ContactAttributes {
   PreferredAppointmentDayCode = "preferredappointmentdaycode",
   PreferredAppointmentTimeCode = "preferredappointmenttimecode",
   PreferredContactMethodCode = "preferredcontactmethodcode",
+  PreferredEquipmentId = "preferredequipmentid",
+  PreferredEquipmentIdName = "preferredequipmentidname",
+  PreferredServiceId = "preferredserviceid",
+  PreferredServiceIdName = "preferredserviceidname",
   PreferredSystemUserId = "preferredsystemuserid",
   PreferredSystemUserIdName = "preferredsystemuseridname",
   PreferredSystemUserIdYomiName = "preferredsystemuseridyominame",
@@ -368,6 +451,7 @@ export const enum ContactAttributes {
   StatusCode = "statuscode",
   SubscriptionId = "subscriptionid",
   Suffix = "suffix",
+  TeamsFollowed = "teamsfollowed",
   Telephone1 = "telephone1",
   Telephone2 = "telephone2",
   Telephone3 = "telephone3",
@@ -578,6 +662,14 @@ export interface Contact extends IEntity {
   adx_modifiedbyusername?: string | null;
   // Organization Name StringType
   adx_organizationname?: string | null;
+  // Portal invitation code StringType The contact's invitation code
+  adx_portalinvitationcode?: string | null;
+  // Portal invitation URL StringType The URL where contacts can register on the event portal
+  adx_portalinvitationurl?: string | null;
+  // Preferred Language LookupType User’s preferred portal language
+  adx_preferredlanguageid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  adx_preferredlanguageidname?: string | null;
   // Preferred LCID (Deprecated) IntegerType User’s preferred portal LCID
   adx_preferredlcid?: number | null;
   // Profile Alert BooleanType
@@ -622,6 +714,10 @@ export interface Contact extends IEntity {
   birthdate?: Date | null;
   // Business Phone 2 StringType Type a second business phone number for this contact.
   business2?: string | null;
+  // Business Card MemoType Stores Image of the Business Card
+  businesscard?: string | null;
+  // BusinessCardAttributes StringType Stores Business Card Control Properties.
+  businesscardattributes?: string | null;
   // Callback Number StringType Type a callback phone number for this contact.
   callback?: string | null;
   // Children's Names StringType Type the names of the contact's children for reference in communications and client programs.
@@ -660,6 +756,10 @@ export interface Contact extends IEntity {
   customersizecode?: import("../enums/contact_contact_customersizecode").contact_contact_customersizecode | null;
   // Relationship Type contact_contact_customertypecode Select the category that best describes the relationship between the contact and your organization.
   customertypecode?: import("../enums/contact_contact_customertypecode").contact_contact_customertypecode | null;
+  // Price List LookupType Choose the default price list associated with the contact to make sure the correct product prices for this customer are applied in sales opportunities, quotes, and orders.
+  defaultpricelevelid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  defaultpricelevelidname?: string | null;
   // Department StringType Type the department or business unit where the contact works in the parent company or business.
   department?: string | null;
   // Description MemoType Type additional information to describe the contact, such as an excerpt from the company's website.
@@ -788,14 +888,100 @@ export interface Contact extends IEntity {
   msa_managingpartneridname?: string | null;
   //  StringType
   msa_managingpartneridyominame?: string | null;
+  // KPI LookupType Maps to contact KPI records
+  msdyn_contactkpiid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyn_contactkpiidname?: string | null;
+  // Decision influence labels contact_contact_msdyn_decisioninfluencetag Indicate buying influence using labels
+  msdyn_decisioninfluencetag?: import("../enums/contact_contact_msdyn_decisioninfluencetag").contact_contact_msdyn_decisioninfluencetag | null;
   // Disable Web Tracking BooleanType Indicates that the contact has opted out of web tracking.
   msdyn_disablewebtracking?: boolean | null;
+  // GDPR Optout BooleanType Describes whether contact is opted out or not
+  msdyn_gdproptout?: boolean | null;
+  // Is Assistant BooleanType Describes if the contact is an assistant in org chart
+  msdyn_isassistantinorgchart?: boolean | null;
   // Is Minor BooleanType Indicates that the contact is considered a minor in their jurisdiction.
   msdyn_isminor?: boolean | null;
   // Is Minor with Parental Consent BooleanType Indicates that the contact is considered a minor in their jurisdiction and has parental consent.
   msdyn_isminorwithparentalconsent?: boolean | null;
+  // Not at Company Flag contact_contact_msdyn_orgchangestatus Whether or not the contact belongs to the associated account
+  msdyn_orgchangestatus?: import("../enums/contact_contact_msdyn_orgchangestatus").contact_contact_msdyn_orgchangestatus | null;
   // Portal Terms Agreement Date DateTimeType Indicates the date and time that the person agreed to the portal terms and conditions. DateAndTime:UserLocal
   msdyn_portaltermsagreementdate?: Date | null;
+  // Primary Time Zone IntegerType Indicates the primary time zone that the contact works on.
+  msdyn_primarytimezone?: number | null;
+  // Segment Id LookupType Unique identifier for Segment associated with contact.
+  msdyn_segmentid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyn_segmentidname?: string | null;
+  // SendNow Contact LookupType Unique identifier for Quick Send Email associated with Contact.
+  msdyncrm_contactid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyncrm_contactidname?: string | null;
+  // Source customer journey (outbound marketing) LookupType
+  msdyncrm_customerjourneyid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyncrm_customerjourneyidname?: string | null;
+  // Source email (outbound marketing) LookupType
+  msdyncrm_emailid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyncrm_emailidname?: string | null;
+  // Insights StringType
+  msdyncrm_insights_placeholder?: string | null;
+  // Source form (outbound marketing) LookupType
+  msdyncrm_marketingformid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyncrm_marketingformidname?: string | null;
+  // timestamp of form submission (outbound marketing) StringType
+  msdyncrm_marketingformsubmissiondateprecise?: string | null;
+  // Source landing page (outbound marketing) LookupType
+  msdyncrm_marketingpageid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyncrm_marketingpageidname?: string | null;
+  // Remember me BooleanType
+  msdyncrm_rememberme?: boolean | null;
+  // SegmentMember LookupType Unique identifier for Segment associated with Contact.
+  msdyncrm_segmentmemberid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdyncrm_segmentmemberidname?: string | null;
+  // Source customer journey LookupType
+  msdynmkt_customerjourneyid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdynmkt_customerjourneyidname?: string | null;
+  // Source email LookupType
+  msdynmkt_emailid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdynmkt_emailidname?: string | null;
+  // Source form LookupType
+  msdynmkt_marketingformid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msdynmkt_marketingformidname?: string | null;
+  // Microsoft Entra Object ID StringType
+  msevtmgt_aadobjectid?: string | null;
+  // Contact LookupType Unique identifier for the check-in associated with the contact
+  msevtmgt_contactid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msevtmgt_contactidname?: string | null;
+  // Originating event LookupType For contacts created by registering for an event in Microsoft Dynamics 365, this identifies the relevant event. This is used to relate the contact to the data on the originating event.
+  msevtmgt_originatingeventid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msevtmgt_originatingeventidname?: string | null;
+  // consent change source form Id LookupType
+  msgdpr_consentchangesourceformid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msgdpr_consentchangesourceformidname?: string | null;
+  // Do not track BooleanType Select whether contact allows tracking interaction data. If Do Not Allow is selected, Microsoft Dynamics 365 will not save interaction data for the contact.
+  msgdpr_donottrack?: boolean | null;
+  // Consent given msgdpr_gdpr_consent_option_set
+  msgdpr_gdprconsent?: import("../enums/msgdpr_gdpr_consent_option_set").msgdpr_gdpr_consent_option_set | null;
+  // GDPR is child BooleanType
+  msgdpr_gdprischild?: boolean | null;
+  // Parent or custodian LookupType Unique identifier for the contact associated with the contact
+  msgdpr_gdprparentid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  msgdpr_gdprparentidname?: string | null;
+  //  StringType
+  msgdpr_gdprparentidyominame?: string | null;
   // Age IntegerType Age auto calculated via formula using Birthdate.
   msnfp_age?: number | null;
   // Anonymous? BooleanType Indicates if the contact is anonymous
@@ -830,6 +1016,12 @@ export interface Contact extends IEntity {
   numberofchildren?: number | null;
   // On Hold Time (Minutes) IntegerType Shows how long, in minutes, that the record was on hold.
   onholdtime?: number | null;
+  // Originating Lead LookupType Shows the lead that the contact was created if the contact was created by converting a lead in Microsoft Dynamics 365. This is used to relate the contact to the data on the originating lead for use in reporting and analytics.
+  originatingleadid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  originatingleadidname?: string | null;
+  //  StringType
+  originatingleadidyominame?: string | null;
   // Record Created On DateTimeType Date and time that the record was migrated. DateOnly:UserLocal
   overriddencreatedon?: Date | null;
   // Owner OwnerType Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.
@@ -874,6 +1066,14 @@ export interface Contact extends IEntity {
   preferredappointmenttimecode?: import("../enums/contact_contact_preferredappointmenttimecode").contact_contact_preferredappointmenttimecode | null;
   // Preferred Method of Contact contact_contact_preferredcontactmethodcode Select the preferred method of contact.
   preferredcontactmethodcode?: import("../enums/contact_contact_preferredcontactmethodcode").contact_contact_preferredcontactmethodcode | null;
+  // Preferred Facility/Equipment LookupType Choose the contact's preferred service facility or equipment to make sure services are scheduled correctly for the customer.
+  preferredequipmentid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  preferredequipmentidname?: string | null;
+  // Preferred Service LookupType Choose the contact's preferred service to make sure services are scheduled correctly for the customer.
+  preferredserviceid?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  preferredserviceidname?: string | null;
   // Preferred User LookupType Choose the regular or preferred customer service representative for reference when scheduling service activities for the contact.
   preferredsystemuserid?: import("dataverse-ify").EntityReference | null;
   //  StringType
@@ -906,6 +1106,8 @@ export interface Contact extends IEntity {
   subscriptionid?: import("dataverse-ify").Guid | null;
   // Suffix StringType Type the suffix used in the contact's name, such as Jr. or Sr. to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns.
   suffix?: string | null;
+  // TeamsFollowed IntegerType Number of users or conversations followed the record
+  teamsfollowed?: number | null;
   // Business Phone StringType Type the main phone number for this contact.
   telephone1?: string | null;
   // Home Phone StringType Type a second phone number for this contact.

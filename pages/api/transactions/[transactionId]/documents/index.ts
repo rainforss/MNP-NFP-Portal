@@ -69,7 +69,7 @@ async function documentsRoute(req: NextApiRequest, res: NextApiResponse) {
         ).getAllDocumentsForRecord(transactionId as string);
 
         const documents = await axios.get(
-          `https://graph.microsoft.com/v1.0/sites/betachdemo2020pcsandbox.sharepoint.com/drives/b!tWbiNeOA90e1YE9gIWpZ4OOal23aZEhNsj0KggF5hU06omJdb4ulQ6BpN90L9kt_/root:/${documentLocations[0].relativeurl}:/children`,
+          `https://graph.microsoft.com/v1.0/sites/betachdemo2020pcsandbox.sharepoint.com/drives/b!84ViHwQxbU2l4-KHe_cCwhSaWCczJzBNrXD3NDXOcGSPXnG0H1PuTafCGMsmkBmJ/root:/${documentLocations[0].relativeurl}:/children`,
           {
             headers: {
               Authorization: `Bearer ${tokenResponses[1].accessToken}`,

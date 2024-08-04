@@ -15,7 +15,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = (props) => {
   return (
     <>
       <Head>
-        <link rel="shortcut icon" href="/mnp-llp-vector-logo.ico" />
+        <link rel="shortcut icon" href="/JFS-logo.ico" />
       </Head>
       <Box h="100vh" w="100%">
         <Sidebar />

@@ -25,11 +25,9 @@ export default async function paymentRoute(
         },
       });
 
-      await disconnect();
       return res.status(200).json({ customerId: stripeCustomer.id });
 
     default:
-      await disconnect();
       return res.status(405).json({
         error: {
           name: "Not Supported",

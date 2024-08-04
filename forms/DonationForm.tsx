@@ -1,4 +1,13 @@
-import { Box, Button, useToast } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  useToast,
+} from "@chakra-ui/react";
 import {
   PaymentElement,
   useElements,
@@ -10,6 +19,7 @@ import * as React from "react";
 import ButtonGroupInput from "../components/ButtonGroup";
 import CheckboxInput from "../components/CheckboxInput";
 import SelectInput from "../components/SelectInput";
+import TextAreaInput from "../components/TextAreaInput";
 import TextInput from "../components/TextInput";
 import TextInputGroup from "../components/TextInputGroup";
 import { useContacts } from "../hooks/useContacts";
@@ -37,11 +47,23 @@ type DonationValues = {
   address1_stateorprovince: string;
   address1_postalcode: string;
   msnfp_designationid: string;
+  mnp_recipientname: string;
+  mnp_recipientemail: string;
+  mnp_inmemoryofname: string;
+  mnp_tributemessage: string;
+  mnp_sourcepageurl: string;
 };
 
 const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
   user,
 }) => {
+  let referrer = "";
+  if (typeof window !== "undefined") {
+    // browser code
+
+    referrer = document.referrer;
+  }
+
   const stripe = useStripe();
   const elements = useElements();
   const toast = useToast();
@@ -64,6 +86,8 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
       position="relative"
       bg="whiteAlpha.900"
       overflowY="scroll"
+      w="60%"
+      mx="auto"
     >
       <Formik
         enableReinitialize={true}
@@ -82,6 +106,11 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 address1_postalcode: "",
                 address1_stateorprovince: "",
                 msnfp_designationid: "",
+                mnp_recipientemail: "",
+                mnp_recipientname: "",
+                mnp_inmemoryofname: "",
+                mnp_tributemessage: "",
+                mnp_sourcepageurl: referrer,
               } as DonationValues)
             : ({
                 isRecurring: false,
@@ -97,6 +126,11 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 address1_stateorprovince:
                   contact.address1_stateorprovince || "",
                 msnfp_designationid: "",
+                mnp_recipientemail: "",
+                mnp_recipientname: "",
+                mnp_inmemoryofname: "",
+                mnp_tributemessage: "",
+                mnp_sourcepageurl: referrer,
               } as DonationValues)
         }
         validationSchema={donationSchema}
@@ -209,9 +243,14 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                   msnfp_totalamount: values.isProcessingFeeCovered
                     ? values.amount + values.amount * 0.04
                     : values.amount,
-                  msnfp_commitmenttype: 100000000,
+                  mnp_commitmenttype: 100000000,
                   msnfp_commitment_defaultdesignationid:
                     values.msnfp_designationid,
+                  mnp_tributemessage: values.mnp_tributemessage,
+                  mnp_inmemoryofname: values.mnp_inmemoryofname,
+                  mnp_recipientname: values.mnp_recipientname,
+                  mnp_recipientemail: values.mnp_recipientemail,
+                  mnp_sourcepageurl: values.mnp_sourcepageurl,
                 },
               }
             );
@@ -278,9 +317,14 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 msnfp_pledgedbycontactid: contactId,
                 msnfp_totalamount: values.amount,
                 msiati_description: values.description,
-                msnfp_commitmenttype: 100000001,
+                mnp_commitmenttype: 100000001,
                 msnfp_commitment_defaultdesignationid:
                   values.msnfp_designationid,
+                mnp_tributemessage: values.mnp_tributemessage,
+                mnp_inmemoryofname: values.mnp_inmemoryofname,
+                mnp_recipientname: values.mnp_recipientname,
+                mnp_recipientemail: values.mnp_recipientemail,
+                mnp_sourcepageurl: values.mnp_sourcepageurl,
               },
             });
 
@@ -426,112 +470,238 @@ const DonationForm: React.FunctionComponent<IDonationFormProps> = ({
                 w="100%"
                 py="0.375rem"
                 px="1rem"
+                mb="2.5rem"
               />
-              <TextInput
-                name="emailaddress1"
-                id="emailaddress1"
-                type="email"
-                disabled={isSubmitting}
-                placeholder="Email Address"
-                label="Email Address"
+
+              <Accordion
+                display="block"
+                py="0.375rem"
                 w="100%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="firstname"
-                id="firstname"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="First Name"
-                label="First Name"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="lastname"
-                id="lastname"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Last Name"
-                label="Last Name"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="address1_line1"
-                id="address1_line1"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Address Line 1"
-                label="Address Line 1"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="address1_line2"
-                id="address1_line2"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Address Line 2"
-                label="Address Line 2"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="address1_city"
-                id="address1_city"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="City"
-                label="City"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="address1_country"
-                id="address1_country"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Country"
-                label="Country"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="address1_stateorprovince"
-                id="address1_stateorprovince"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Province"
-                label="Province"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <TextInput
-                name="address1_postalcode"
-                id="address1_postalcode"
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Postal Code"
-                label="Postal Code"
-                w="50%"
-                py="0.375rem"
-                px="1rem"
-              />
-              <Box display="block" w="100%" p="1rem">
-                <PaymentElement
-                  id="payment-element"
-                  options={paymentElementOptions}
-                />
-              </Box>
+                defaultIndex={[0]}
+                allowMultiple
+              >
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton
+                      _expanded={{ bg: "tomato", color: "white" }}
+                    >
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        fontWeight="bold"
+                      >
+                        RECEIPT INFORMATION
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel
+                    pb={4}
+                    w="100%"
+                    display="flex"
+                    flexWrap="wrap"
+                  >
+                    <TextInput
+                      name="emailaddress1"
+                      id="emailaddress1"
+                      type="email"
+                      disabled={isSubmitting}
+                      placeholder="Email Address"
+                      label="Email Address"
+                      w="100%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="firstname"
+                      id="firstname"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="First Name"
+                      label="First Name"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="lastname"
+                      id="lastname"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Last Name"
+                      label="Last Name"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="address1_line1"
+                      id="address1_line1"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Address Line 1"
+                      label="Address Line 1"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="address1_line2"
+                      id="address1_line2"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Address Line 2"
+                      label="Address Line 2"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="address1_city"
+                      id="address1_city"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="City"
+                      label="City"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="address1_country"
+                      id="address1_country"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Country"
+                      label="Country"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="address1_stateorprovince"
+                      id="address1_stateorprovince"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Province"
+                      label="Province"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="address1_postalcode"
+                      id="address1_postalcode"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Postal Code"
+                      label="Postal Code"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                  </AccordionPanel>
+                </AccordionItem>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton
+                      _expanded={{ bg: "tomato", color: "white" }}
+                    >
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        fontWeight="bold"
+                      >
+                        DEDICATION INFORMATION
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel
+                    pb={4}
+                    w="100%"
+                    display="flex"
+                    flexWrap="wrap"
+                  >
+                    <TextInput
+                      name="mnp_inmemoryofname"
+                      id="mnp_inmemoryofname"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Name"
+                      label="Name (In Memory Of)"
+                      w="100%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="mnp_recipientname"
+                      id="mnp_recipientname"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Name"
+                      label="Recipient Name"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextInput
+                      name="mnp_recipientemail"
+                      id="mnp_recipientemail"
+                      type="text"
+                      disabled={isSubmitting}
+                      placeholder="Email"
+                      label="Recipient Email"
+                      w="50%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                    <TextAreaInput
+                      name="mnp_tributemessage"
+                      id="mnp_tributemessage"
+                      disabled={isSubmitting}
+                      placeholder="Message"
+                      label="Message"
+                      w="100%"
+                      py="0.375rem"
+                      px="1rem"
+                    />
+                  </AccordionPanel>
+                </AccordionItem>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton
+                      _expanded={{ bg: "tomato", color: "white" }}
+                    >
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        fontWeight="bold"
+                      >
+                        PAYMENT INFORMATION
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel
+                    pb={4}
+                    w="100%"
+                    display="flex"
+                    flexWrap="wrap"
+                  >
+                    <Box display="block" w="100%" p="1rem">
+                      <PaymentElement
+                        id="payment-element"
+                        options={paymentElementOptions}
+                      />
+                    </Box>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+
               <Button
                 type="submit"
                 disabled={isSubmitting || !stripe || !elements}

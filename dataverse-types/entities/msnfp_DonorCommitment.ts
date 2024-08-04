@@ -18,6 +18,7 @@ export const msnfp_donorcommitmentMetadata = {
     utcconversiontimezonecode: "Integer",
     versionnumber: "BigInt",
     // Optionsets
+    mnp_commitmenttype: "Optionset",
     msiati_transactiontype: "Optionset",
     msnfp_anonymity: "Optionset",
     msnfp_commitmenttype: "Optionset",
@@ -56,6 +57,7 @@ export const msnfp_donorcommitmentMetadata = {
     msiati_disbursementchannelid: ["mscrm.msiati_nonembeddedcodelist"],
     modifiedonbehalfby: ["mscrm.systemuser"],
     modifiedby: ["mscrm.systemuser"],
+    mnp_OriginatingOpportunity: ["mscrm.opportunity"],
     createdonbehalfby: ["mscrm.systemuser"],
     createdby: ["mscrm.systemuser"],
   },
@@ -72,6 +74,14 @@ export const enum msnfp_DonorCommitmentAttributes {
   CreatedOnBehalfByYomiName = "createdonbehalfbyyominame",
   ExchangeRate = "exchangerate",
   ImportSequenceNumber = "importsequencenumber",
+  mnp_CommitmentType = "mnp_commitmenttype",
+  mnp_InMemoryOfName = "mnp_inmemoryofname",
+  mnp_OriginatingOpportunity = "mnp_originatingopportunity",
+  mnp_OriginatingOpportunityName = "mnp_originatingopportunityname",
+  mnp_RecipientEmail = "mnp_recipientemail",
+  mnp_RecipientName = "mnp_recipientname",
+  mnp_SourcePageURL = "mnp_sourcepageurl",
+  mnp_TributeMessage = "mnp_tributemessage",
   ModifiedBy = "modifiedby",
   ModifiedByName = "modifiedbyname",
   ModifiedByYomiName = "modifiedbyyominame",
@@ -173,6 +183,22 @@ export interface msnfp_DonorCommitment extends IEntity {
   exchangerate?: number | null;
   // Import Sequence Number IntegerType Sequence number of the import that created this record.
   importsequencenumber?: number | null;
+  // Commitment Type msnfp_commitmenttype
+  mnp_commitmenttype?: import("../enums/msnfp_commitmenttype").msnfp_commitmenttype | null;
+  // In Memory Of Name StringType
+  mnp_inmemoryofname?: string | null;
+  // Originating Opportunity LookupType
+  mnp_originatingopportunity?: import("dataverse-ify").EntityReference | null;
+  //  StringType
+  mnp_originatingopportunityname?: string | null;
+  // Recipient Email StringType
+  mnp_recipientemail?: string | null;
+  // Recipient Name StringType
+  mnp_recipientname?: string | null;
+  // Source Page URL StringType
+  mnp_sourcepageurl?: string | null;
+  // Tribute Message StringType
+  mnp_tributemessage?: string | null;
   // Modified By LookupType Unique identifier of the user who modified the record.
   modifiedby?: import("dataverse-ify").EntityReference | null;
   //  StringType

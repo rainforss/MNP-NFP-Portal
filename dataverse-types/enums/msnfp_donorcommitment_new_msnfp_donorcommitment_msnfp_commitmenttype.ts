@@ -4,5 +4,6 @@ export const enum msnfp_donorcommitment_new_msnfp_donorcommitment_msnfp_commitme
   Regularpledge = 100000000,
   Installmentpledge = 100000001,
   Inkindpledge = 100000002,
+  Plannedgiving = 100000003,
 }
   

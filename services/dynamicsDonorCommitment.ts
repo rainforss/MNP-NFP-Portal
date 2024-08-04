@@ -12,8 +12,13 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
         msnfp_pledgedbycontactid,
         msnfp_totalamount,
         msiati_description,
-        msnfp_commitmenttype,
+        mnp_commitmenttype,
         msnfp_commitment_defaultdesignationid,
+        mnp_recipientname,
+        mnp_recipientemail,
+        mnp_inmemoryofname,
+        mnp_tributemessage,
+        mnp_sourcepageurl,
       } = commitmentData;
 
       const commitment = await createWithReturnData(
@@ -27,7 +32,13 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
           "msnfp_Commitment_DefaultDesignationId@odata.bind": `/msnfp_designations(${msnfp_commitment_defaultdesignationid})`,
           msnfp_totalamount,
           msiati_description,
-          msnfp_commitmenttype,
+          mnp_commitmenttype,
+          mnp_recipientname,
+          mnp_recipientemail,
+          mnp_inmemoryofname,
+          mnp_tributemessage,
+          mnp_sourcepageurl,
+          statuscode: 864950001,
         },
         "$select=msnfp_donorcommitmentid"
       );
