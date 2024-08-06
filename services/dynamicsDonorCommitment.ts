@@ -39,6 +39,7 @@ export const dynamicsDonorCommitment = (accessToken: string) => {
           mnp_tributemessage,
           mnp_sourcepageurl,
           statuscode: 864950001,
+          mnp_dataentrytype: 864950002,
         },
         "$select=msnfp_donorcommitmentid"
       );
