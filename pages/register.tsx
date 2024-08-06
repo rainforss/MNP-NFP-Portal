@@ -106,6 +106,7 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   label="First Name"
                   w="50%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
                 <TextInput
                   name="lastName"
@@ -114,6 +115,7 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   label="Last Name"
                   w="50%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
                 <TextInput
                   name="email"
@@ -122,6 +124,7 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   label="Email"
                   w="100%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
 
                 <TextInput
@@ -131,6 +134,7 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   label="Username"
                   w="100%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
                 <TextInput
                   name="password"
@@ -139,6 +143,7 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   label="Password"
                   w="50%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
                 <TextInput
                   name="confirmPassword"
@@ -147,6 +152,7 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   label="Confirm Password"
                   w="50%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
                 <Button
                   type="submit"
@@ -155,6 +161,8 @@ const Register: NextPage<IRegisterProps> = (props) => {
                   colorScheme="teal"
                   px="2rem"
                   py="1.5rem"
+                  isLoading={props.isSubmitting}
+                  disabled={props.isSubmitting}
                 >
                   REGISTER
                 </Button>

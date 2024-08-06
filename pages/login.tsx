@@ -104,6 +104,7 @@ const Login: NextPage<ILoginProps> = () => {
                   autoComplete="username"
                   w="100%"
                   p="1rem"
+                  disabled={props.isSubmitting}
                 />
                 <TextInput
                   name="password"
@@ -111,6 +112,7 @@ const Login: NextPage<ILoginProps> = () => {
                   type="password"
                   label="Password"
                   autoComplete="current-password"
+                  disabled={props.isSubmitting}
                   w="100%"
                   p="1rem"
                 />

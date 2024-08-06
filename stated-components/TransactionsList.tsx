@@ -55,7 +55,7 @@ const TransactionsList: React.FunctionComponent<ITransactionsListProps> = (
         )}
         {!isLoading && (
           <>
-            <Table variant="striped" colorScheme="red">
+            <Table variant="striped" colorScheme="telegram">
               <Thead
                 position="sticky"
                 top="0"
@@ -66,7 +66,7 @@ const TransactionsList: React.FunctionComponent<ITransactionsListProps> = (
                 <Tr>
                   <Th color="#0a2351">Name</Th>
                   <Th color="#0a2351">Amount</Th>
-                  <Th color="#0a2351">Book Date</Th>
+                  <Th color="#0a2351">Status</Th>
                   <Th color="#0a2351">Received Date</Th>
                 </Tr>
               </Thead>
@@ -90,9 +90,13 @@ const TransactionsList: React.FunctionComponent<ITransactionsListProps> = (
                         />{" "}
                         {t.msnfp_name}
                       </Td>
-                      <Td>{t.msnfp_amount}</Td>
+                      <Td>${t.msnfp_amount}</Td>
                       <Td>
-                        {new Date(t.msnfp_bookdate!).toLocaleDateString()}
+                        {
+                          t[
+                            "statuscode@OData.Community.Display.V1.FormattedValue"
+                          ]
+                        }
                       </Td>
                       <Td>
                         {new Date(t.msnfp_receiveddate!).toLocaleDateString()}

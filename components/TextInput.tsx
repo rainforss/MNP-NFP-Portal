@@ -16,6 +16,7 @@ interface ITextInputProps extends ChakraProps {
   autoComplete?: string;
   disabled?: boolean;
   placeholder?: string;
+  isDate?: boolean;
 }
 
 const TextInput: React.FunctionComponent<ITextInputProps> = ({
@@ -26,6 +27,7 @@ const TextInput: React.FunctionComponent<ITextInputProps> = ({
   autoComplete,
   disabled,
   placeholder,
+  isDate,
   ...chakraProps
 }) => {
   const [field, meta, _helpers] = useField(name);
@@ -42,7 +44,9 @@ const TextInput: React.FunctionComponent<ITextInputProps> = ({
         id={id}
         name={name}
         type={type}
-        value={field.value}
+        value={
+          isDate ? new Date(field.value).toLocaleDateString() : field.value
+        }
         autoComplete={autoComplete || "off"}
         disabled={disabled}
         placeholder={placeholder}

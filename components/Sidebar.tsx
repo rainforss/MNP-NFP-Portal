@@ -63,12 +63,12 @@ const Sidebar: React.FunctionComponent<ISidebarProps> = (props) => {
           <Text
             as="span"
             fontWeight="bold"
-            fontSize="0.98rem"
+            fontSize="0.9rem"
             textTransform="uppercase"
           >
             Fundraising & Engagement
           </Text>
-          <Box w="100%" h="1px" bgColor="#0a2351"></Box>
+          <Box w="100%" h="1px" bgColor="#117dbc"></Box>
         </Flex>
         <Flex w="90%" flexDir="column" style={{ gap: "20px" }}>
           {navItems.map((ni, index) => (

@@ -13,7 +13,7 @@ export const dynamicsTransaction = (accessToken: string) => {
       const transactions = await retrieveMultiple(
         config,
         "msnfp_transactions",
-        `$filter=statecode eq 0 and _msnfp_receiptoncontactid_value eq '${contactId}'&$select=msnfp_name,msnfp_amount,msnfp_bookdate,msnfp_receiveddate,msnfp_transactionid,&$orderby=msnfp_receiveddate desc`,
+        `$filter=statecode eq 0 and _msnfp_receiptoncontactid_value eq '${contactId}'&$select=msnfp_name,msnfp_amount,msnfp_bookdate,msnfp_receiveddate,msnfp_transactionid,mnp_stripepaymentlink,statuscode,&$orderby=msnfp_receiveddate desc`,
         { representation: true }
       );
       return transactions.value;
@@ -23,7 +23,7 @@ export const dynamicsTransaction = (accessToken: string) => {
         config,
         "msnfp_transactions",
         transactionId,
-        `$select=msnfp_name,msnfp_amount,msnfp_bookdate,msnfp_receiveddate,msnfp_transactionid,_msnfp_receiptoncontactid_value,_msnfp_transaction_receiptonaccountid_value&$orderby=msnfp_receiveddate desc`,
+        `$select=msnfp_name,msnfp_amount,msnfp_bookdate,msnfp_receiveddate,msnfp_transactionid,_msnfp_receiptoncontactid_value,mnp_stripepaymentlink,statuscode,_msnfp_transaction_receiptonaccountid_value&$orderby=msnfp_receiveddate desc`,
         { representation: true }
       );
       return transaction;
